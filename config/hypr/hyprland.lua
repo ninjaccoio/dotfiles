@@ -64,6 +64,10 @@ local fileSearch  = ""
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
 -- end)
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("waybar")
+    -- hl.exec_cmd("swaync")
+end)
 
 
 -------------------------------
@@ -365,6 +369,17 @@ hl.window_rule({
 --     no_anim = true,
 -- })
 -- overlayLayerRule:set_enabled(false)
+
+-- Blur behind Waybar.
+-- Waybar is a layer-shell surface, not a normal window.
+hl.layer_rule({
+    name = "blur-waybar",
+    match = {
+        namespace = "^waybar$",
+    },
+
+    blur = true,
+})
 
 -- Hyprland-run windowrule
 hl.window_rule({

@@ -1,0 +1,53 @@
+/*
+ * Wi-Fi menu
+ *
+ * Compact network selector matching the main Rofi palette.
+ */
+
+configuration {
+    show-icons: false;
+}
+
+window {
+    location: center;
+    anchor: center;
+
+    width: 30%;
+
+    padding: 12px;
+    border: 1px;
+    border-radius: 12px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    children: [ entry ];
+
+    padding: 10px;
+    border-radius: 8px;
+}
+
+entry {
+    placeholder: "Wi-Fi...";
+}
+
+listview {
+    lines: 6;
+    columns: 1;
+
+    fixed-height: false;
+
+    spacing: 6px;
+}
+
+element {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+element-text {
+    vertical-align: 0.5;
+}

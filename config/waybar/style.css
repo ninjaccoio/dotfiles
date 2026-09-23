@@ -1,0 +1,149 @@
+/* =========================================================
+ * WAYBAR — Anime × Minimal × Glass
+ * ========================================================= */
+
+/* ---------- Palette ---------- */
+
+@define-color background rgba(14, 13, 22, 0.82);
+@define-color surface    rgba(35, 30, 48, 0.70);
+
+@define-color foreground #eeeaf5;
+@define-color muted      #9690a8;
+
+@define-color accent     #f19ac2;
+@define-color accent2    #b9a3e3;
+
+@define-color border     rgba(190, 165, 215, 0.22);
+
+
+/* ---------- Global ---------- */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+
+    min-height: 0;
+}
+
+
+/* ---------- Main bar ---------- */
+
+window#waybar {
+    background: @background;
+    color: @foreground;
+
+    border: 1px solid @border;
+    border-radius: 14px;
+}
+
+
+/* ---------- Shared modules ---------- */
+
+#workspaces,
+#custom-active-app,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#network,
+#bluetooth,
+#wireplumber,
+#battery,
+#custom-notification,
+#custom-power {
+    padding: 0 8px;
+}
+
+
+/* ---------- Workspaces ---------- */
+
+#workspaces button {
+    color: @muted;
+
+    padding: 0 6px;
+
+    border-radius: 8px;
+}
+
+#workspaces button.active {
+    color: @accent;
+    background: @surface;
+}
+
+#workspaces button:hover {
+    color: @foreground;
+    background: @surface;
+}
+
+
+/* ---------- Active application ---------- */
+
+#custom-active-app {
+    color: @accent2;
+
+    font-size: 16px;
+
+    margin-left: 4px;
+}
+
+
+/* ---------- Clock ---------- */
+
+#clock {
+    color: @foreground;
+
+    font-weight: 600;
+}
+
+
+/* ---------- Resources ---------- */
+
+#cpu,
+#memory,
+#temperature {
+    color: @muted;
+}
+
+
+/* ---------- System ---------- */
+
+#network,
+#bluetooth,
+#wireplumber {
+    color: @foreground;
+}
+
+
+/* ---------- Battery ---------- */
+
+#battery {
+    color: @foreground;
+}
+
+#battery.charging {
+    color: @accent2;
+}
+
+#battery.warning:not(.charging) {
+    color: @accent;
+}
+
+
+/* ---------- Control Center ---------- */
+
+#custom-notification {
+    color: @accent2;
+
+    font-size: 15px;
+}
+
+
+/* ---------- Power ---------- */
+
+#custom-power {
+    color: @accent;
+
+    font-size: 16px;
+
+    margin-right: 4px;
+}
