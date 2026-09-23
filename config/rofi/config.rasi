@@ -1,0 +1,105 @@
+/*
+ * Rofi configuration
+ *
+ * Rofi is used as the search palette for the desktop.
+ *
+ * Planned modes:
+ *   SUPER + SPACE         -> application search
+ *   SUPER + SHIFT + SPACE -> file search
+ *
+ * Both modes should share the same compact visual style.
+ */
+
+
+/* =========================
+ * GENERAL
+ * ========================= */
+
+configuration {
+    // Use desktop application entries (.desktop files).
+    modi: "drun";
+
+    // Show application icons next to search results.
+    show-icons: true;
+}
+
+
+/* =========================
+ * WINDOW
+ * ========================= */
+
+window {
+    // Keep the launcher centered on the active monitor.
+    location: center;
+    anchor: center;
+
+    // Compact palette: 30% of the available width.
+    width: 30%;
+
+    padding: 12px;
+
+    border: 1px;
+    border-radius: 12px;
+}
+
+
+/* =========================
+ * SEARCH BAR
+ * ========================= */
+
+inputbar {
+    // Only show the text entry.
+    // We intentionally omit Rofi's prompt to keep the UI minimal.
+    children: [ entry ];
+    padding: 10px;
+    border-radius: 8px;
+}
+
+entry {
+    // Placeholder shown when the search field is empty.
+    // File search will eventually use "Files..." instead.
+    placeholder: "Apps...";
+}
+
+
+/* =========================
+ * RESULTS
+ * ========================= */
+
+listview {
+    // Maximum number of visible results.
+    lines: 5;
+
+    // Display results as a single vertical list.
+    columns: 1;
+
+    // Avoid reserving empty space when fewer than 5 results exist.
+    fixed-height: false;
+
+    spacing: 6px;
+}
+
+
+/* =========================
+ * RESULT ELEMENT
+ * ========================= */
+
+element {
+    // Each result consists of an icon followed by its name.
+    children: [ element-icon, element-text ];
+
+    padding: 8px;
+    spacing: 10px;
+
+    border-radius: 8px;
+}
+
+element-icon {
+    // Initial icon size. We can tune this later with the final styling.
+    size: 24px;
+}
+
+element-text {
+    // Vertically center the application name relative to its icon.
+    vertical-align: 0.5;
+}
