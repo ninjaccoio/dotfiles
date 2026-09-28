@@ -517,6 +517,63 @@ link_config \
     "$DOTFILES/quickshell" \
     "$CONFIG/quickshell"
 
+# ==================================================
+# VS Code
+# ==================================================
+
+# VS Code salva le configurazioni dell'utente in:
+#
+#   ~/.config/Code/User/
+#
+# A differenza di Hyprland e Quickshell, NON vogliamo creare
+# un symlink dell'intera directory "User".
+#
+# Questa directory contiene infatti anche dati gestiti internamente
+# da VS Code, come:
+#
+#   - History
+#   - globalStorage
+#   - workspaceStorage
+#
+# Vogliamo quindi mantenere nei dotfiles solamente i singoli file
+# che rappresentano realmente la nostra configurazione.
+
+
+# Su una macchina nuova questa directory potrebbe non esistere
+# perché VS Code potrebbe non essere mai stato avviato.
+#
+# La creiamo quindi noi.
+#
+# -p significa:
+#
+#   - crea anche eventuali directory intermedie mancanti
+#   - non genera errore se la directory esiste già
+mkdir -p "$CONFIG/Code/User"
+
+
+# Creiamo il symlink del file settings.json.
+#
+# Source:
+#
+#   <repo>/vscode/settings.json
+#
+# Target:
+#
+#   ~/.config/Code/User/settings.json
+#
+# Il risultato sarà:
+#
+#   ~/.config/Code/User/settings.json
+#       ->
+#   <repo>/vscode/settings.json
+#
+# Da questo momento, quando VS Code modifica settings.json,
+# sta in realtà modificando direttamente il file presente
+# nel repository dei dotfiles.
+link_config \
+    "$DOTFILES/vscode/settings.json" \
+    "$CONFIG/Code/User/settings.json"
+    
 
 # ==================================================
 # Done
