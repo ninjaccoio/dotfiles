@@ -181,7 +181,8 @@ install_arch_packages() {
     # Questo rende sicuro rieseguire install.sh più volte.
     sudo pacman -S --needed \
         hyprland \
-        quickshell
+        quickshell \
+        sddm
 
     # ------------------------------------------------
     # paru
@@ -225,7 +226,8 @@ install_arch_packages() {
     # visual-studio-code-bin è il pacchetto che stiamo usando
     # per la build ufficiale Microsoft di VS Code.
     paru -S --needed \
-        visual-studio-code-bin
+        visual-studio-code-bin \
+        sddm-silent-theme
 }
 
 
@@ -461,6 +463,99 @@ echo
 # oppure apt in base alla distribuzione rilevata.
 install_packages
 
+# ==================================================
+# SDDM
+# ==================================================
+#
+# SDDM è il display manager utilizzato dalla nostra rice.
+#
+# Il pacchetto `sddm-silent-theme`, installato tramite paru,
+# mantiene il codice originale di SilentSDDM in:
+#
+#   /usr/share/sddm/themes/silent/
+#
+# Non modifichiamo direttamente quei file perché appartengono
+# al package manager.
+#
+# Nel repository manteniamo invece solamente:
+#
+#   sddm/sddm.conf
+#       configurazione generale di SDDM
+#
+#   sddm/silent.conf
+#       nostre personalizzazioni di SilentSDDM
+#
+
+echo "==> Configuring SDDM..."
+
+
+# --------------------------------------------------
+# SDDM configuration
+# --------------------------------------------------
+#
+# Le configurazioni locali di SDDM possono essere messe in:
+#
+#   /etc/sddm.conf.d/
+#
+# Su una macchina nuova questa directory potrebbe non esistere,
+# quindi la creiamo prima.
+#
+sudo mkdir -p /etc/sddm.conf.d
+
+
+# Installiamo la configurazione generale di SDDM.
+#
+# A differenza delle configurazioni dentro ~/.config, qui NON
+# utilizziamo un symbolic link verso il repository.
+#
+# Il greeter SDDM viene eseguito come utente `sddm`, che non può
+# attraversare la nostra home directory privata.
+#
+# `install` copia il file nella destinazione e permette anche
+# di impostarne esplicitamente i permessi.
+#
+# -D:
+#   crea le directory intermedie mancanti.
+#
+# -m 644:
+#   assegna questi permessi:
+#
+#       owner: lettura + scrittura
+#       group: lettura
+#       others: lettura
+#
+# In questo modo SDDM può leggere il file.
+#
+sudo install -Dm644 \
+    "$DOTFILES/sddm/sddm.conf" \
+    /etc/sddm.conf.d/10-dotfiles.conf
+
+
+# Installiamo allo stesso modo le nostre override di SilentSDDM.
+#
+# Il file presente nel repository rimane la source of truth.
+# `install.sh` ne distribuisce una copia nella posizione di sistema
+# dalla quale il greeter SDDM può leggerlo.
+#
+sudo install -Dm644 \
+    "$DOTFILES/sddm/silent.conf" \
+    /usr/share/sddm/themes/silent/configs/default.conf.user
+
+
+# --------------------------------------------------
+# Enable SDDM
+# --------------------------------------------------
+#
+# Installare SDDM non significa avviarlo automaticamente.
+#
+# `enable` configura systemd affinché SDDM venga avviato
+# durante i boot successivi.
+#
+# NON utilizziamo `--now`, perché non vogliamo avviare o
+# riavviare il display manager mentre install.sh è in esecuzione.
+#
+sudo systemctl enable sddm.service
+
 
 # ==================================================
 # Configuration directory
@@ -573,7 +668,7 @@ mkdir -p "$CONFIG/Code/User"
 link_config \
     "$DOTFILES/vscode/settings.json" \
     "$CONFIG/Code/User/settings.json"
-    
+
 
 # ==================================================
 # Done
