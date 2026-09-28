@@ -531,15 +531,59 @@ sudo install -Dm644 \
     /etc/sddm.conf.d/10-dotfiles.conf
 
 
-# Installiamo allo stesso modo le nostre override di SilentSDDM.
+# --------------------------------------------------
+# SilentSDDM preset
+# --------------------------------------------------
 #
-# Il file presente nel repository rimane la source of truth.
-# `install.sh` ne distribuisce una copia nella posizione di sistema
-# dalla quale il greeter SDDM può leggerlo.
+# SilentSDDM contiene diversi preset ufficiali in:
 #
-sudo install -Dm644 \
-    "$DOTFILES/sddm/silent.conf" \
-    /usr/share/sddm/themes/silent/configs/default.conf.user
+#   /usr/share/sddm/themes/silent/configs/
+#
+# Noi utilizziamo il preset "silvia" originale.
+#
+# Non manteniamo una copia di silvia.conf nei dotfiles:
+# utilizziamo direttamente quella fornita dal pacchetto
+# sddm-silent-theme.
+#
+# Il file metadata.desktop contiene una riga:
+#
+#   ConfigFile=configs/default.conf
+#
+# che indica a SilentSDDM quale preset caricare.
+#
+# La sostituiamo con:
+#
+#   ConfigFile=configs/silvia.conf
+#
+
+SILENT_SDDM_METADATA="/usr/share/sddm/themes/silent/metadata.desktop"
+
+# Verifichiamo che SilentSDDM sia stato installato correttamente
+# prima di provare a modificarne la configurazione.
+if [[ ! -f "$SILENT_SDDM_METADATA" ]]; then
+    echo "ERROR: SilentSDDM metadata.desktop not found."
+    exit 1
+fi
+
+# sed:
+#
+#   -i
+#       modifica direttamente il file.
+#
+#   ^ConfigFile=
+#       cerca una riga che INIZIA con "ConfigFile=".
+#
+#   .*
+#       indica qualsiasi contenuto successivo.
+#
+# Quindi, indipendentemente dal preset attualmente selezionato,
+# la riga diventerà:
+#
+#   ConfigFile=configs/silvia.conf
+#
+sudo sed -i \
+    's|^ConfigFile=.*|ConfigFile=configs/silvia.conf|' \
+    "$SILENT_SDDM_METADATA"
 
 
 # --------------------------------------------------
