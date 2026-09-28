@@ -181,6 +181,7 @@ install_arch_packages() {
     # Questo rende sicuro rieseguire install.sh più volte.
     sudo pacman -S --needed \
         hyprland \
+        hyprpaper \
         quickshell \
         sddm
 
