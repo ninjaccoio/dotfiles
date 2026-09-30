@@ -8,5 +8,9 @@
     "workbench.iconTheme": "material-icon-theme",
     "editor.minimap.enabled": false,
     "editor.padding.bottom": 15,
-    "editor.padding.top": 15
+    "editor.padding.top": 15,
+    "workbench.editorAssociations": {
+        "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc": "default",
+        "*.qrc": "qt-core.qrcEditor"
+    }
 }
