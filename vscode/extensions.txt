@@ -1,0 +1,8 @@
+ms-vscode.cpptools
+openai.chatgpt
+openai.codex-audio
+pkief.material-icon-theme
+pkief.material-product-icons
+platformio.platformio-ide
+theqtcompany.qt-core
+theqtcompany.qt-qml
